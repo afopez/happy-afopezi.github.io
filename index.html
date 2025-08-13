@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Afopezi - Elite Database Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --bg-glass: rgba(26, 26, 46, 0.3);
+            --accent-primary: #00d4ff;
+            --accent-secondary: #ff006e;
+            --accent-tertiary: #fb5607;
+            --text-primary: #ffffff;
+            --text-secondary: #b8bcc8;
+            --text-muted: #6c7293;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-cyber: linear-gradient(135deg, #00d4ff 0%, #ff006e 50%, #fb5607 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            --border-glass: 1px solid rgba(255,255,255,0.1);
+            --shadow-glow: 0 0 50px rgba(0, 212, 255, 0.3);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.37);
+            --border-radius: 20px;
+            --animation-speed: 0.6s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(251, 86, 7, 0.1) 0%, transparent 50%);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* Glass morphism utility */
+        .glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--border-glass);
+            box-shadow: var(--shadow-glass);
+        }
+
+        .glow {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .glow:hover::before {
+            left: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all var(--animation-speed) ease;
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            background: var(--gradient-cyber);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all var(--animation-speed) ease;
+            cursor: pointer;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-cyber);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Floating contact info */
+        .floating-contact {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all var(--animation-speed) ease;
+            font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item:nth-child(1) { background: rgba(0, 212, 255, 0.1); }
+        .contact-item:nth-child(2) { background: rgba(255, 0, 110, 0.1); }
+        .contact-item:nth-child(3) { background: rgba(251, 86, 7, 0.1); }
+
+        .contact-item:hover {
+            transform: translateX(-10px) scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Section styling */
+        section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-cyber);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .skills-sidebar {
+            position: sticky;
+            top: 120px;
+        }
+
+        .skill-category-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .category-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--animation-speed) ease;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--gradient-cyber);
+            color: white;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .skills-content {
+            min-height: 400px;
+        }
+
+        .skill-group {
+            display: none;
+            animation: fadeInUp var(--animation-speed) ease forwards;
+        }
+
+        .skill-group.active {
+            display: block;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all var(--animation-speed) ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-cyber);
+            opacity: 0.1;
+            transition: left 0.5s ease;
+        }
+
+        .skill-card:hover::before {
+            left: 0;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .skill-level {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gradient-cyber);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            padding-left: 120px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 40px;
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gradient-cyber);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .timeline-content {
+            padding: 30px;
+            border-radius: var(--border-radius);
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-cyber);
+        }
+
+        .timeline-content:hover {
+            transform: translateX(20px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .job-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .company {
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .duration {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .job-highlights {
+            list-style: none;
+        }
+
+        .job-highlights li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .job-highlights li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+        }
+
+        /* Certifications Grid */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .cert-card {
+            padding: 40px 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-cyber);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 212, 255, 0.2);
+        }
+
+        .cert-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cert-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .cert-issuer {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 80px 0 40px;
+            margin-top: 120px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-cyber);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .slide-in {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .skills-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .skills-sidebar {
+                position: static;
+            }
+            
+            .skill-category-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .category-btn {
+                min-width: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-contact {
+                position: static;
+                transform: none;
+                flex-direction: row;
+                justify-content: center;
+                margin: 20px 0;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                padding-left: 60px;
+            }
+
+            .timeline-dot {
+                left: 10px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                position: static;
+                transform: none;
+                margin: 20px;
+                border-radius: 15px;
+            }
+
+            .hero {
+                height: auto;
+                padding: 100px 0 60px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-cyber);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="glass">
+        <div class="nav-container">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#experience" class="nav-link">Experience</a>
+            <a href="#certifications" class="nav-link">Certifications</a>
+        </div>
+    </nav>
+
+    <!-- Floating Contact -->
+    <div class="floating-contact">
+        <a href="tel:+17038143966" class="contact-item glass" title="Call">📞</a>
+        <a href="mailto:happy.afopezi20@gmail.com" class="contact-item glass" title="Email">✉️</a>
+        <a href="#contact" class="contact-item glass" title="Contact">💬</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                🔒 SECRET CLEARANCE • 🇺🇸 US CITIZEN
+            </div>
+            <h1>Happy Afopezi</h1>
+            <div class="hero-subtitle">Elite Database Architect & DevOps Engineer</div>
+            <div class="hero-description">
+                11+ years delivering enterprise-scale database solutions across 400+ servers and 12,000+ databases globally. 
+                Specialized in PostgreSQL, Oracle, AWS cloud architecture, and high-availability systems.
+            </div>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary glow">
+                    <span>💼</span> Hire Me
+                </a>
+                <a href="#experience" class="btn btn-secondary">
+                    <span>📈</span> View Experience
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">About Me</div>
+                <h2 class="section-title">Performance-Driven Professional</h2>
+                <p class="section-subtitle">
+                    Dynamic DevOps DBA with 11+ years expertise spanning comprehensive database technologies, 
+                    advanced PostgreSQL ecosystem, cloud platforms, and enterprise automation frameworks.
+                </p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card glass glow">
+                    <span class="stat-number">11+</span>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card glass glow">
+                    <span class="stat-number">400+</span>
+                    <div class="stat-label">Servers Managed</div>
+                </div>
+                <div class="stat-card glass glow">
+                    <span class="stat-number">12K+</span>
+                    <div class="stat-label">Databases Administered</div>
+                </div>
+                <div class="stat-card glass glow">
+                    <span class="stat-number">11</span>
+                    <div class="stat-label">Global Data Centers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Technical Expertise</div>
+                <h2 class="section-title">Advanced Skill Portfolio</h2>
+                <p class="section-subtitle">
+                    Comprehensive expertise across database technologies, cloud platforms, and DevOps tools
+                </p>
+            </div>
+
+            <div class="skills-container">
+                <div class="skills-sidebar">
+                    <div class="skill-category-nav">
+                        <button class="category-btn active" data-category="databases">🗄️ Databases</button>
+                        <button class="category-btn" data-category="postgresql">🐘 PostgreSQL</button>
+                        <button class="category-btn" data-category="cloud">☁️ Cloud</button>
+                        <button class="category-btn" data-category="devops">🚀 DevOps</button>
+                        <button class="category-btn" data-category="monitoring">📊 Monitoring</button>
+                        <button class="category-btn" data-category="ticketing">🎫 Ticketing</button>
+                    </div>
+                </div>
+
+                <div class="skills-content">
+                    <div class="skill-group active" data-category="databases">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🐘</span>
+                                <div class="skill-name">PostgreSQL</div>
+                                <div class="skill-level">Expert (11+ years)</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔶</span>
+                                <div class="skill-name">Oracle</div>
+                                <div class="skill-level">Expert (6+ years)</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">💎</span>
+                                <div class="skill-name">SAP HANA</div>
+                                <div class="skill-level">Advanced (3+ years)</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🏢</span>
+                                <div class="skill-name">SQL Server</div>
+                                <div class="skill-level">Proficient</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🐬</span>
+                                <div class="skill-name">MySQL</div>
+                                <div class="skill-level">Intermediate</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🍃</span>
+                                <div class="skill-name">MongoDB</div>
+                                <div class="skill-level">Intermediate</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">❄️</span>
+                                <div class="skill-name">Snowflake</div>
+                                <div class="skill-level">Proficient</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group" data-category="postgresql">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">💾</span>
+                                <div class="skill-name">pgBackRest</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🛡️</span>
+                                <div class="skill-name">Barman</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📦</span>
+                                <div class="skill-name">pg_basebackup</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">💿</span>
+                                <div class="skill-name">pg_dump/pg_restore</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📊</span>
+                                <div class="skill-name">pgAdmin</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🦫</span>
+                                <div class="skill-name">DBeaver</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">💻</span>
+                                <div class="skill-name">psql</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">⏰</span>
+                                <div class="skill-name">Timescale Studio</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">👁️</span>
+                                <div class="skill-name">pgwatch2</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📈</span>
+                                <div class="skill-name">pgmetrics</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📊</span>
+                                <div class="skill-name">pg_stat_monitor</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📋</span>
+                                <div class="skill-name">pg_stat_statements</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔍</span>
+                                <div class="skill-name">EXPLAIN ANALYZE</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📄</span>
+                                <div class="skill-name">pgBadger</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔮</span>
+                                <div class="skill-name">HypoPG</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔐</span>
+                                <div class="skill-name">pgAudit</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔄</span>
+                                <div class="skill-name">Patroni</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔁</span>
+                                <div class="skill-name">Repmgr</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🌐</span>
+                                <div class="skill-name">pgpool-II</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🏀</span>
+                                <div class="skill-name">pgBouncer</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔗</span>
+                                <div class="skill-name">postgres_fdw</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📁</span>
+                                <div class="skill-name">file_fdw</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🗂️</span>
+                                <div class="skill-name">pg_partman</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">☸️</span>
+                                <div class="skill-name">Postgres on K8s</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🏢</span>
+                                <div class="skill-name">EFM</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🎛️</span>
+                                <div class="skill-name">PEM</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group" data-category="cloud">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔶</span>
+                                <div class="skill-name">AWS RDS/Aurora</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🌟</span>
+                                <div class="skill-name">AWS Solutions Architect</div>
+                                <div class="skill-level">Professional Certified</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">☁️</span>
+                                <div class="skill-name">GCP CloudSQL</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔷</span>
+                                <div class="skill-name">Azure Database</div>
+                                <div class="skill-level">Proficient</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🚀</span>
+                                <div class="skill-name">AWS EC2/ECS</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group" data-category="devops">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔧</span>
+                                <div class="skill-name">Jenkins</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🌐</span>
+                                <div class="skill-name">Terraform</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🐳</span>
+                                <div class="skill-name">Docker</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">☸️</span>
+                                <div class="skill-name">Kubernetes</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">⚙️</span>
+                                <div class="skill-name">Ansible</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔀</span>
+                                <div class="skill-name">Git/GitLab</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group" data-category="monitoring">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🐕</span>
+                                <div class="skill-name">Datadog</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📈</span>
+                                <div class="skill-name">Grafana</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">👁️</span>
+                                <div class="skill-name">Zabbix</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔍</span>
+                                <div class="skill-name">Splunk</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📊</span>
+                                <div class="skill-name">AWS CloudWatch</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">⚡</span>
+                                <div class="skill-name">Dynatrace</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🔵</span>
+                                <div class="skill-name">New Relic</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📢</span>
+                                <div class="skill-name">PagerDuty</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🚨</span>
+                                <div class="skill-name">OpsGenie</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group" data-category="ticketing">
+                        <div class="skills-grid">
+                            <div class="skill-card glass">
+                                <span class="skill-icon">📋</span>
+                                <div class="skill-name">Jira</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">🎟️</span>
+                                <div class="skill-name">ServiceNow</div>
+                                <div class="skill-level">Expert</div>
+                            </div>
+                            <div class="skill-card glass">
+                                <span class="skill-icon">⚕️</span>
+                                <div class="skill-name">Remedy</div>
+                                <div class="skill-level">Advanced</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Career Journey</div>
+                <h2 class="section-title">Professional Experience</h2>
+                <p class="section-subtitle">
+                    Progressive career advancement across leading technology companies
+                </p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <div class="job-title">Senior Database Administrator</div>
+                        <div class="company">SAP Ariba</div>
+                        <div class="duration">February 2019 - Present</div>
+                        <ul class="job-highlights">
+                            <li>Architected and maintained 400+ servers across 11 global data centers with 12,000+ databases</li>
+                            <li>Implemented comprehensive PostgreSQL ecosystem with pgBackRest, Patroni, and pgBouncer</li>
+                            <li>Designed bidirectional replication solutions and Kubernetes-based PostgreSQL clusters</li>
+                            <li>Automated monitoring with Datadog, Splunk, Zabbix, and custom pgwatch2 implementations</li>
+                            <li>Integrated enterprise ticketing systems (Jira, ServiceNow, Remedy) for seamless operations</li>
+                            <li>Led database migrations and performance optimization using advanced PostgreSQL tools</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <div class="job-title">PostgreSQL/Oracle Database Administrator</div>
+                        <div class="company">Abercrombie & Fitch</div>
+                        <div class="duration">March 2016 - January 2019</div>
+                        <ul class="job-highlights">
+                            <li>Managed 6-node Oracle 12c RAC clusters handling 35TB+ databases</li>
+                            <li>Led Oracle to PostgreSQL migration projects</li>
+                            <li>Implemented streaming replication and logical replication solutions</li>
+                            <li>Optimized database performance improving query response by 60%</li>
+                            <li>Configured enterprise monitoring with OEM 12c/13c</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass">
+                        <div class="job-title">Database Administrator</div>
+                        <div class="company">Expedia</div>
+                        <div class="duration">August 2014 - February 2016</div>
+                        <ul class="job-highlights">
+                            <li>Converted single-instance to RAC database environments</li>
+                            <li>Implemented Oracle GoldenGate for real-time replication</li>
+                            <li>Managed critical production systems with 99.9% uptime</li>
+                            <li>Applied security patches and coordinated major upgrades</li>
+                            <li>Provided 24/7 on-call support for mission-critical systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Professional Credentials</div>
+                <h2 class="section-title">Certifications & Education</h2>
+                <p class="section-subtitle">
+                    Industry-recognized certifications validating expertise across platforms
+                </p>
+            </div>
+
+            <div class="certs-grid">
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">🎓</span>
+                    <div class="cert-title">MSc Computer Science</div>
+                    <div class="cert-issuer">Cloud Computing • GPA: 4.0/4.0</div>
+                </div>
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">🔶</span>
+                    <div class="cert-title">Oracle Certified Professional</div>
+                    <div class="cert-issuer">Database Administration</div>
+                </div>
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">☁️</span>
+                    <div class="cert-title">AWS Solutions Architect</div>
+                    <div class="cert-issuer">Professional Level</div>
+                </div>
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">🗄️</span>
+                    <div class="cert-title">AWS Database Specialty</div>
+                    <div class="cert-issuer">Advanced Database Services</div>
+                </div>
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">⭐</span>
+                    <div class="cert-title">AWS Solutions Architect</div>
+                    <div class="cert-issuer">Associate Level</div>
+                </div>
+                <div class="cert-card glass glow">
+                    <span class="cert-icon">🔷</span>
+                    <div class="cert-title">Oracle Certified Associate</div>
+                    <div class="cert-issuer">Database Fundamentals</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🚀 Ready to Collaborate</h3>
+                    <p>Available for enterprise database projects</p>
+                    <p>Remote and on-site consulting</p>
+                    <p>Contract and full-time opportunities</p>
+                </div>
+                <div class="footer-section">
+                    <h3>📞 Contact Information</h3>
+                    <p>Phone: +1 (703) 814-3966</p>
+                    <p>Email: happy.afopezi20@gmail.com</p>
+                    <p>Location: Atlanta, GA</p>
+                </div>
+                <div class="footer-section">
+                    <h3>🔒 Security Clearance</h3>
+                    <p>🇺🇸 US Citizen</p>
+                    <p>🔐 Secret Clearance Active</p>
+                    <p>📋 Federal Contract Ready</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Happy Afopezi. Elite Database Architecture & DevOps Engineering.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Navigation functionality
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            // Smooth scrolling
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Active section highlighting
+            function updateActiveNav() {
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    if (scrollY >= sectionTop) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNav);
+        }
+
+        // Skills section functionality
+        function setupSkillsSection() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const skillGroups = document.querySelectorAll('.skill-group');
+
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.dataset.category;
+
+                    // Update active button
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Show corresponding skill group
+                    skillGroups.forEach(group => {
+                        group.classList.remove('active');
+                        if (group.dataset.category === category) {
+                            group.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Intersection Observer for animations
+        function setupAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Stagger animations for cards
+                        const cards = entry.target.querySelectorAll('.stat-card, .skill-card, .cert-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections and cards
+            document.querySelectorAll('section, .stat-card, .skill-card, .cert-card, .timeline-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        }
+
+        // Glowing cursor effect
+        function setupCursorEffect() {
+            const cursor = document.createElement('div');
+            cursor.style.cssText = `
+                position: fixed;
+                width: 20px;
+                height: 20px;
+                background: radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transition: transform 0.1s ease;
+            `;
+            document.body.appendChild(cursor);
+
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - 10 + 'px';
+                cursor.style.top = e.clientY - 10 + 'px';
+            });
+
+            // Enhanced glow on interactive elements
+            document.querySelectorAll('.btn, .contact-item, .skill-card, .cert-card').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'scale(2)';
+                    cursor.style.background = 'radial-gradient(circle, rgba(0,212,255,0.5) 0%, transparent 70%)';
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'scale(1)';
+                    cursor.style.background = 'radial-gradient(circle, rgba(0,212,255,0.3) 0%, transparent 70%)';
+                });
+            });
+        }
+
+        // Dynamic background colors
+        function setupDynamicBackground() {
+            const sections = document.querySelectorAll('section');
+            const colors = [
+                'rgba(0, 212, 255, 0.15)',
+                'rgba(255, 0, 110, 0.15)', 
+                'rgba(251, 86, 7, 0.15)',
+                'rgba(0, 212, 255, 0.1)',
+                'rgba(255, 0, 110, 0.1)'
+            ];
+
+            function updateBackgroundColor() {
+                let currentSectionIndex = 0;
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop - window.innerHeight / 2;
+                    if (scrollY >= sectionTop) {
+                        currentSectionIndex = index;
+                    }
+                });
+
+                const bgElement = document.querySelector('.background-animation');
+                const color = colors[currentSectionIndex % colors.length];
+                bgElement.style.background = `radial-gradient(circle at 20% 80%, ${color} 0%, transparent 50%),
+                                             radial-gradient(circle at 80% 20%, ${colors[(currentSectionIndex + 1) % colors.length]} 0%, transparent 50%),
+                                             radial-gradient(circle at 40% 40%, ${colors[(currentSectionIndex + 2) % colors.length]} 0%, transparent 50%)`;
+            }
+
+            window.addEventListener('scroll', updateBackgroundColor);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupNavigation();
+            setupSkillsSection();
+            setupAnimations();
+            setupCursorEffect();
+            setupDynamicBackground();
+        });
+
+        // Performance optimization
+        let ticking = false;
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+    </script>
+</body>
+</html>
